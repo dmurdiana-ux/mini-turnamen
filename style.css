@@ -20,30 +20,40 @@ body {
   line-height: 1.6;
 }
 
-/* Teks Berjalan Lambat */
+/* ==============================================
+   TEKS BERJALAN — DIPERLEBAR & DIPERBAIKI
+   ============================================== */
 .running-text {
   background: linear-gradient(90deg, var(--biru), var(--hijau));
   color: white;
-  padding: 10px 0;
+  padding: 12px 0;
+  width: 100%;
   overflow: hidden;
   position: relative;
   font-weight: 500;
+  font-size: 16px;
+  white-space: nowrap;
 }
+
 .running-text-content {
+  display: inline-block;
   white-space: nowrap;
   position: absolute;
-  animation: marquee 25s linear infinite;
+  animation: marquee 30s linear infinite;
+  will-change: transform;
 }
+
 @keyframes marquee {
   from { transform: translateX(100%); }
   to   { transform: translateX(-100%); }
 }
 
-/* Kontainer */
+/* Kontainer — diperlebar agar tidak membatasi teks */
 .container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 15px;
+  width: 100%;
 }
 
 /* Header & Logo */
@@ -171,10 +181,21 @@ th {
 /* Tersembunyi */
 .tersembunyi { display: none; }
 
-/* Responsif — HP */
+/* ==============================================
+   RESPONSIF — DIPERBAIKI AGAR Teks Berjalan TAMPAK PENUH DI HP
+   ============================================== */
 @media (max-width: 600px) {
-  .logo { font-size: 22px; }
+  .logo { font-size: 20px; }
   .kotak { padding: 12px; }
   th, td { padding: 6px 3px; font-size: 12px; }
   table { display: block; overflow-x: auto; }
+
+  /* Teks berjalan di HP — ukuran & jarak aman */
+  .running-text {
+    font-size: 15px;
+    padding: 10px 0;
+  }
+  .running-text-content {
+    animation-duration: 20s;
+  }
 }
