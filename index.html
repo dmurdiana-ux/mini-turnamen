@@ -130,8 +130,18 @@
         .merah { color: #d32f2f; font-weight: bold; }
         .kosong {
             text-align: center;
-            padding: 20px;
+            padding: 25px;
             color: #888;
+            font-style: italic;
+        }
+        .peringatan {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 15px;
+            font-size: 14px;
+            text-align: center;
         }
         @media (max-width: 600px) {
             .skor-besar { font-size: 32px; }
@@ -144,14 +154,18 @@
 
 <!-- TEKS BERJALAN -->
 <div class="running-text-container">
-    <div class="running-text" id="teksBerjalan">⚽ Selamat datang di Turnamen DESTAPURA — Silakan nikmati pertandingan!</div>
+    <div class="running-text" id="teksBerjalan">⚽ Selamat datang di Turnamen Mini DESTAPURA — Silakan nikmati pertandingan!</div>
 </div>
 
 <!-- KEPALA HALAMAN -->
 <div class="header">
     <img src="logo-destapura.png" alt="Logo DESTAPURA FC">
     <h1>🏆 HASIL PERTANDINGAN TURNAMEN DESTAPURA</h1>
-    <p>Tuan Rumah Penyelenggara : SSB / FC DESTAPURA</p>
+    <p>Tuan Rumah Penyelenggara: SSB / FC DESTAPURA</p>
+</div>
+
+<div class="peringatan" id="peringatanData">
+    💡 Buka halaman <strong>admin.html</strong> terlebih dahulu untuk memasukkan data pertandingan.
 </div>
 
 <!-- LIVE SCORE -->
@@ -164,20 +178,26 @@
 
 <!-- DAFTAR HASIL -->
 <div class="container" id="wadahKategori">
+    <h2 style="color:#ffd700; margin-bottom:15px;">📋 Data Hasil Pertandingan</h2>
     <!-- Data akan dibuat otomatis lewat JavaScript -->
 </div>
 
 <script>
 const USIA_LIST = ['U9', 'U10', 'U11', 'U12', 'U13', 'U14', 'U15'];
+const KUNCI_DATA = 'dataTurnamenDestapura';
+const KUNCI_TEKS = 'runningTextDestapura';
+const KUNCI_LIVE = 'liveScoreDestapura';
 
 function muatData() {
     // Teks Berjalan
-    const teks = localStorage.getItem('runningText');
-    if (teks) document.getElementById('teksBerjalan').textContent = teks;
+    const teks = localStorage.getItem(KUNCI_TEKS);
+    if (teks) {
+        document.getElementById('teksBerjalan').textContent = teks;
+    }
 
     // Live Score
-    const live = JSON.parse(localStorage.getItem('liveScore') || 'null');
-    if (live && live.timA) {
+    const live = JSON.parse(localStorage.getItem(KUNCI_LIVE) || 'null');
+    if (live && live.timA && live.timB) {
         document.getElementById('kontenLiveScore').innerHTML = `
             <div style="font-weight:bold; color:#002395">Kategori ${live.usia}</div>
             <div class="skor-besar">
@@ -190,54 +210,65 @@ function muatData() {
     }
 
     // Data Tabel per Kategori
-    const semuaData = JSON.parse(localStorage.getItem('dataTurnamen') || '[]');
+    const semuaData = JSON.parse(localStorage.getItem(KUNCI_DATA) || '[]');
     const wadah = document.getElementById('wadahKategori');
+    
+    // Sembunyikan peringatan jika ada data
+    if (semuaData.length > 0) {
+        document.getElementById('peringatanData').style.display = 'none';
+    }
+
     wadah.innerHTML = '';
 
     USIA_LIST.forEach(usia => {
         const dataUsia = semuaData.filter(d => d.usia === usia);
-        wadah.innerHTML += `
-            <div class="kategori">
-                <div class="kategori-judul">📌 Kategori ${usia}</div>
-                <div class="isi-tabel">
-                    ${dataUsia.length === 0 
-                        ? '<div class="kosong">Belum ada data pertandingan</div>'
-                        : `<table>
-                            <thead>
+        const divKategori = document.createElement('div');
+        divKategori.className = 'kategori';
+        divKategori.innerHTML = `
+            <div class="kategori-judul">📌 Kategori ${usia}</div>
+            <div class="isi-tabel">
+                ${dataUsia.length === 0 
+                    ? '<div class="kosong">Belum ada data pertandingan untuk kategori ini</div>'
+                    : `<table>
+                        <thead>
+                            <tr>
+                                <th>SSB / Klub</th>
+                                <th>Nama Pemain</th>
+                                <th>#</th>
+                                <th>⚽ Gol</th>
+                                <th>🟡 Kuning</th>
+                                <th>🔴 Merah</th>
+                                <th>🕐 Jadwal</th>
+                                <th>📍 Lapangan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${dataUsia.map(d => `
                                 <tr>
-                                    <th>SSB / Klub</th>
-                                    <th>Pemain</th>
-                                    <th>#</th>
-                                    <th>⚽</th>
-                                    <th>🟡</th>
-                                    <th>🔴</th>
-                                    <th>🕐 Jadwal</th>
-                                    <th>📍 Lapangan</th>
+                                    <td>${d.namaSSB}</td>
+                                    <td>${d.namaPemain}</td>
+                                    <td>${d.noPunggung}</td>
+                                    <td class="gol">${d.gol}</td>
+                                    <td class="kuning">${d.kuning}</td>
+                                    <td class="merah">${d.merah}</td>
+                                    <td>${d.jam}</td>
+                                    <td>${d.lapangan}</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                ${dataUsia.map(d => `
-                                    <tr>
-                                        <td>${d.namaSSB}</td>
-                                        <td>${d.namaPemain}</td>
-                                        <td>${d.noPunggung}</td>
-                                        <td class="gol">${d.gol}</td>
-                                        <td class="kuning">${d.kuning}</td>
-                                        <td class="merah">${d.merah}</td>
-                                        <td>${d.jam}</td>
-                                        <td>${d.lapangan}</td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                           </table>`
-                    }
-                </div>
+                            `).join('')}
+                        </tbody>
+                       </table>`
+                }
             </div>
         `;
+        wadah.appendChild(divKategori);
     });
 }
 
-window.onload = muatData;
+// Muat ulang data setiap 5 detik agar otomatis diperbarui
+window.onload = function() {
+    muatData();
+    setInterval(muatData, 5000); // Segarkan data setiap 5 detik
+};
 </script>
 </body>
 </html>
