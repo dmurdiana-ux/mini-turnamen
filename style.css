@@ -27,11 +27,11 @@ body {
   background: linear-gradient(90deg, var(--biru), var(--hijau));
   color: white;
   padding: 12px 0;
-  width: 100%;
+  width: 50%;
   overflow: hidden;
   position: relative;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 12px;
   white-space: nowrap;
 }
 
