@@ -1,0 +1,180 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+:root {
+  --hijau: #2e7d32;
+  --biru: #1565c0;
+  --merah: #c62828;
+  --kuning: #f9a825;
+  --abu: #f5f5f5;
+  --gelap: #263238;
+}
+
+body {
+  background-color: #e8f5e9;
+  color: var(--gelap);
+  line-height: 1.6;
+}
+
+/* Teks Berjalan Lambat */
+.running-text {
+  background: linear-gradient(90deg, var(--biru), var(--hijau));
+  color: white;
+  padding: 10px 0;
+  overflow: hidden;
+  position: relative;
+  font-weight: 500;
+}
+.running-text-content {
+  white-space: nowrap;
+  position: absolute;
+  animation: marquee 25s linear infinite;
+}
+@keyframes marquee {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(-100%); }
+}
+
+/* Kontainer */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 15px;
+}
+
+/* Header & Logo */
+.header {
+  text-align: center;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--hijau);
+  margin-bottom: 5px;
+}
+.subjudul {
+  color: #546e7a;
+  font-size: 16px;
+}
+
+/* Navigasi */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+nav button {
+  flex: 1;
+  min-width: 90px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--gelap);
+  transition: all 0.2s;
+}
+nav button.aktif {
+  background: var(--hijau);
+  color: white;
+}
+
+/* Kotak Bagian */
+.kotak {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.kotak h2 {
+  color: var(--biru);
+  margin-bottom: 15px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 8px;
+}
+
+/* Live Score — Berkedip */
+.sedang-berlangsung {
+  background: #fff3e0;
+  border: 3px solid var(--kuning);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+.tim-berkedip {
+  animation: kedip 1s ease-in-out infinite;
+}
+@keyframes kedip {
+  0%, 100% { opacity: 1; }
+  50%     { opacity: 0.3; }
+}
+
+/* Formulir & Masukan */
+form label {
+  display: block;
+  margin-top: 12px;
+  font-weight: 600;
+}
+form input, form select, form button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+}
+form button {
+  background: var(--biru);
+  color: white;
+  border: none;
+  margin-top: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+form button:hover {
+  background: #0d47a1;
+}
+
+/* Tabel */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+th, td {
+  border: 1px solid #e0e0e0;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+}
+th {
+  background: var(--hijau);
+  color: white;
+}
+
+/* Warna Kartu */
+.kuning { background: #fff9c4; }
+.merah  { background: #ffcdd2; color: #b71c1c; }
+
+/* Tersembunyi */
+.tersembunyi { display: none; }
+
+/* Responsif — HP */
+@media (max-width: 600px) {
+  .logo { font-size: 22px; }
+  .kotak { padding: 12px; }
+  th, td { padding: 6px 3px; font-size: 12px; }
+  table { display: block; overflow-x: auto; }
+}

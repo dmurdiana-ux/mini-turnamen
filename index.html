@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hasil Turnamen Destapura — Skor Langsung</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Teks Berjalan -->
+  <div class="running-text">
+    <div class="running-text-content" id="teksBerjalan">🏆 Selamat Datang di Turnamen Sepak Bola Destapura — Semangat Bermain!</div>
+  </div>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">⚽ DESTAPURA</div>
+      <div class="subjudul">Hasil Pertandingan & Skor Langsung</div>
+    </div>
+
+    <!-- Skor Sedang Berlangsung -->
+    <div class="kotak">
+      <h2>🔴 Skor Sedang Berlangsung</h2>
+      <div id="bagianLangsung">Memuat data...</div>
+    </div>
+
+    <!-- Pilih Kategori Usia -->
+    <div class="kotak">
+      <h2>📊 Jadwal & Hasil per Kategori Usia</h2>
+      <label>Pilih Kategori Usia:</label>
+      <select id="pilihUsia" onchange="tampilSemua()">
+        <option>U9</option><option>U10</option><option>U11</option>
+        <option>U12</option><option>U13</option><option>U14</option><option>U15</option>
+      </select>
+
+      <h3>📅 Jadwal & Skor</h3>
+      <div id="tabelJadwal"></div>
+
+      <h3>👤 Statistik Pemain</h3>
+      <div id="tabelPemain"></div>
+    </div>
+
+  </div>
+
+<script>
+// ==== MUAT TEKS BERJALAN ====
+function muatTeks(){
+  const simpan=localStorage.getItem('teksBerjalan');
+  if(simpan) document.getElementById('teksBerjalan').textContent=simpan;
+}
+
+// ==== TAMPIL SKOR YANG SEDANG BERLANGSUNG ====
+function tampilLangsung(){
+  const wadah=document.getElementById('bagianLangsung');
+  let ada=false;
+  let html='';
+  ['U9','U10','U11','U12','U13','U14','U15'].forEach(u=>{
+    const arr=JSON.parse(localStorage.getItem('jadwal_'+u)||'[]');
+    arr.forEach(j=>{
+      if(j.sedang==='ya'){
+        ada=true;
+        html+=`<div class="sedang-berlangsung">
+          <strong>[${u}] — ${j.lapangan} · ${j.jam}</strong><br>
+          <span class="tim-berkedip">${j.timA}</span>
+          <span style="font-size:22px; font-weight:bold; color:#c62828"> ${j.skorA} — ${j.skorB} </span>
+          <span class="tim-berkedip">${j.timB}</span>
+        </div>`;
+      }
+    });
+  });
+  wadah.innerHTML=ada ? html : '<p>✅ Saat ini tidak ada pertandingan yang sedang berlangsung.</p>';
+}
+
+// ==== TAMPIL JADWAL & PEMAIN ====
+function tampilSemua(){
+  const u=document.getElementById('pilihUsia').value;
+  // Jadwal
+  const jadwal=JSON.parse(localStorage.getItem('jadwal_'+u)||'[]');
+  let tJadwal='<table><tr><th>No</th><th>Pertandingan</th><th>Jam</th><th>Lapangan</th><th>Skor</th></tr>';
+  jadwal.forEach((j,i)=>{
+    const label=j.sedang==='ya'?'🔴 BERLANGSUNG':'';
+    tJadwal+=`<tr><td>${i+1}</td><td>${j.timA} vs ${j.timB}</td><td>${j.jam}</td><td>${j.lapangan}</td><td>${j.skorA} — ${j.skorB} ${label}</td></tr>`;
+  });
+  tJadwal+='</table>';
+  document.getElementById('tabelJadwal').innerHTML=jadwal.length?tJadwal:'<p>Belum ada jadwal. Buat jadwal lewat halaman <b>admin.html</b>.</p>';
+
+  // Pemain
+  const pemain=JSON.parse(localStorage.getItem('pemain_'+u)||'[]');
+  let tPemain='<table><tr><th>Klub / SSB</th><th>Nama Pemain</th><th>No#</th><th>Gol</th><th>Kuning 🟨</th><th>Merah 🟥</th></tr>';
+  pemain.forEach(p=>{
+    tPemain+=`<tr><td>${p.klub}</td><td>${p.nama}</td><td>${p.no}</td><td>${p.gol}</td><td class="kuning">${p.kuning}</td><td class="merah">${p.merah}</td></tr>`;
+  });
+  tPemain+='</table>';
+  document.getElementById('tabelPemain').innerHTML=pemain.length?tPemain:'<p>Belum ada data pemain. Masukkan lewat halaman <b>admin.html</b>.</p>';
+}
+
+// ==== PERBARUI OTOMATIS SETIAP 5 DETIK ====
+window.onload=()=>{ muatTeks(); tampilSemua(); tampilLangsung(); };
+setInterval(()=>{ muatTeks(); tampilSemua(); tampilLangsung(); }, 5000);
+</script>
+</body>
+</html>

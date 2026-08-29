@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Input Data Turnamen Destapura</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Teks Berjalan -->
+  <div class="running-text">
+    <div class="running-text-content" id="teksBerjalan">🏆 Selamat Datang di Turnamen Sepak Bola Destapura — Semangat Bermain!</div>
+  </div>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">⚽ DESTAPURA</div>
+      <div class="subjudul">Halaman Pengelolaan Data & Skor Turnamen</div>
+    </div>
+
+    <!-- Navigasi -->
+    <nav>
+      <button class="tablink aktif" onclick="bukaTab('jadwal')">Jadwal</button>
+      <button class="tablink" onclick="bukaTab('pemain')">Pemain</button>
+      <button class="tablink" onclick="bukaTab('skor')">Skor</button>
+      <button class="tablink" onclick="bukaTab('pengaturan')">Pengaturan</button>
+    </nav>
+
+    <!-- 📅 Bagian Jadwal -->
+    <div id="jadwal" class="kotak">
+      <h2>📅 Jadwal Pertandingan</h2>
+      <label>Kategori Usia:</label>
+      <select id="usiaJadwal">
+        <option>U9</option><option>U10</option><option>U11</option>
+        <option>U12</option><option>U13</option><option>U14</option><option>U15</option>
+      </select>
+
+      <label>Nama SSB/Klub 1:</label><input type="text" id="klub1" placeholder="Misal: SSB Muda Jaya">
+      <label>Nama SSB/Klub 2:</label><input type="text" id="klub2" placeholder="Misal: SSB Garuda">
+      <label>Nama SSB/Klub 3:</label><input type="text" id="klub3" placeholder="Misal: SSB Harapan">
+      <label>Nama SSB/Klub 4:</label><input type="text" id="klub4" placeholder="Misal: SSB Maju">
+
+      <label>Jam Mulai Pertandingan Pertama:</label>
+      <input type="time" id="jamAwal" value="08:00">
+      <label>Lapangan:</label>
+      <select id="lapanganJ">
+        <option>Lapangan 1</option><option>Lapangan 2</option>
+      </select>
+
+      <button onclick="buatJadwal()">Buat & Simpan Jadwal</button>
+      <div id="hasilJadwal"></div>
+    </div>
+
+    <!-- 👤 Bagian Pemain & Statistik -->
+    <div id="pemain" class="kotak tersembunyi">
+      <h2>👤 Data Pemain & Statistik</h2>
+      <label>Kategori Usia:</label>
+      <select id="usiaPemain">
+        <option>U9</option><option>U10</option><option>U11</option>
+        <option>U12</option><option>U13</option><option>U14</option><option>U15</option>
+      </select>
+      <label>Nama SSB/Klub:</label><input type="text" id="namaKlub" placeholder="Nama Klub">
+      <label>Nama Pemain:</label><input type="text" id="namaPemain" placeholder="Nama Lengkap Pemain">
+      <label>Nomor Punggung:</label><input type="number" id="noPunggung" placeholder="Nomor" min="1" max="99">
+      <label>Jumlah Gol:</label><input type="number" id="jmlGol" value="0" min="0">
+      <label>Kartu Kuning:</label><input type="number" id="kartuKuning" value="0" min="0" max="2">
+      <label>Kartu Merah:</label><input type="number" id="kartuMerah" value="0" min="0" max="1">
+
+      <button onclick="simpanPemain()">Simpan Data Pemain</button>
+      <h3>Daftar Pemain</h3>
+      <div id="daftarPemain"></div>
+    </div>
+
+    <!-- ⚡ Bagian Skor Langsung -->
+    <div id="skor" class="kotak tersembunyi">
+      <h2>⚡ Pembaruan Skor Langsung</h2>
+      <label>Kategori Usia:</label>
+      <select id="usiaSkor">
+        <option>U9</option><option>U10</option><option>U11</option>
+        <option>U12</option><option>U13</option><option>U14</option><option>U15</option>
+      </select>
+      <label>Pertandingan:</label><select id="pilihPertandingan"></select>
+      <label>Skor Tim A:</label><input type="number" id="skorA" value="0" min="0">
+      <label>Skor Tim B:</label><input type="number" id="skorB" value="0" min="0">
+      <label>Sedang Berlangsung?</label>
+      <select id="sedangMain">
+        <option value="tidak">Tidak / Selesai</option>
+        <option value="ya">✅ Sedang Berlangsung</option>
+      </select>
+      <button onclick="simpanSkor()">Perbarui Skor</button>
+    </div>
+
+    <!-- ⚙️ Pengaturan Teks Berjalan -->
+    <div id="pengaturan" class="kotak tersembunyi">
+      <h2>⚙️ Ubah Teks Berjalan</h2>
+      <input type="text" id="inputTeksBerjalan" placeholder="Tulis pengumuman yang ditampilkan berjalan di bagian atas">
+      <button onclick="ubahTeksBerjalan()">Ubah Teks</button>
+    </div>
+
+  </div>
+
+<script>
+// ==== ALAT BANTU: BUKA TAB ====
+function bukaTab(namaTab){
+  document.querySelectorAll('.kotak').forEach(k=>k.classList.add('tersembunyi'));
+  document.querySelectorAll('.tablink').forEach(b=>b.classList.remove('aktif'));
+  document.getElementById(namaTab).classList.remove('tersembunyi');
+  event.target.classList.add('aktif');
+}
+
+// ==== TEKS BERJALAN ====
+function ubahTeksBerjalan(){
+  const teks=document.getElementById('inputTeksBerjalan').value.trim();
+  if(teks){
+    localStorage.setItem('teksBerjalan', teks);
+    document.getElementById('teksBerjalan').textContent=teks;
+    alert('✅ Teks berjalan berhasil diubah!');
+  }
+}
+// Muat saat dibuka
+if(localStorage.getItem('teksBerjalan')){
+  document.getElementById('teksBerjalan').textContent=localStorage.getItem('teksBerjalan');
+}
+
+// ==== JADWAL OTOMATIS ====
+function buatJadwal(){
+  const usia=document.getElementById('usiaJadwal').value;
+  const klub=[
+    document.getElementById('klub1').value||'Tim 1',
+    document.getElementById('klub2').value||'Tim 2',
+    document.getElementById('klub3').value||'Tim 3',
+    document.getElementById('klub4').value||'Tim 4'
+  ];
+  const jamAwal=document.getElementById('jamAwal').value;
+  const lapangan=document.getElementById('lapanganJ').value;
+
+  const pasangan=[[0,1],[2,3],[1,2],[0,3],[0,2],[1,3]];
+  let jam=new Date(`2000-01-01T${jamAwal}`);
+  let jadwalList=[];
+
+  pasangan.forEach(([a,b])=>{
+    const jamStr=jam.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+    jadwalList.push({usia, timA:klub[a], timB:klub[b], jam:jamStr, lapangan, skorA:0, skorB:0, sedang:'tidak'});
+    jam.setMinutes(jam.getMinutes()+45);
+  });
+
+  localStorage.setItem('jadwal_'+usia, JSON.stringify(jadwalList));
+  let tampil='<table><tr><th>No</th><th>Pertandingan</th><th>Jam</th><th>Lapangan</th></tr>';
+  jadwalList.forEach((j,i)=>{
+    tampil+=`<tr><td>${i+1}</td><td>${j.timA} vs ${j.timB}</td><td>${j.jam}</td><td>${j.lapangan}</td></tr>`;
+  });
+  tampil+='</table>';
+  document.getElementById('hasilJadwal').innerHTML=tampil;
+  muatPertandinganKePilihan();
+  alert(`✅ Jadwal ${usia} berhasil dibuat & disimpan!`);
+}
+
+// ==== MUAT DAFTAR PERTANDINGAN KE PILIHAN SKOR ====
+function muatPertandinganKePilihan(){
+  const u=document.getElementById('usiaSkor').value;
+  const el=document.getElementById('pilihPertandingan');
+  el.innerHTML='';
+  const data=JSON.parse(localStorage.getItem('jadwal_'+u)||'[]');
+  data.forEach((j,i)=>{
+    const opt=document.createElement('option');
+    opt.value=i; opt.textContent=`${i+1}. ${j.timA} vs ${j.timB} — ${j.jam}`;
+    el.appendChild(opt);
+  });
+}
+// Muat ulang saat ganti kategori usia
+document.getElementById('usiaSkor').addEventListener('change', muatPertandinganKePilihan);
+window.onload=muatPertandinganKePilihan;
+
+// ==== SIMPAN PEMBARUAN SKOR ====
+function simpanSkor(){
+  const u=document.getElementById('usiaSkor').value;
+  const idx=parseInt(document.getElementById('pilihPertandingan').value);
+  const sa=parseInt(document.getElementById('skorA').value);
+  const sb=parseInt(document.getElementById('skorB').value);
+  const sd=document.getElementById('sedangMain').value;
+
+  const data=JSON.parse(localStorage.getItem('jadwal_'+u)||'[]');
+  if(data[idx]){
+    data[idx].skorA=sa; data[idx].skorB=sb; data[idx].sedang=sd;
+    localStorage.setItem('jadwal_'+u, JSON.stringify(data));
+    alert('✅ Skor diperbarui! Buka halaman index.html untuk melihat hasil.');
+  }else{
+    alert('❌ Pilih pertandingan terlebih dahulu atau buat jadwalnya dulu.');
+  }
+}
+
+// ==== SIMPAN DATA PEMAIN ====
+function simpanPemain(){
+  const u=document.getElementById('usiaPemain').value;
+  const dataPemain=JSON.parse(localStorage.getItem('pemain_'+u)||'[]');
+  dataPemain.push({
+    klub:document.getElementById('namaKlub').value,
+    nama:document.getElementById('namaPemain').value,
+    no:document.getElementById('noPunggung').value,
+    gol:document.getElementById('jmlGol').value,
+    kuning:document.getElementById('kartuKuning').value,
+    merah:document.getElementById('kartuMerah').value
+  });
+  localStorage.setItem('pemain_'+u, JSON.stringify(dataPemain));
+  tampilPemain();
+  alert('✅ Data pemain disimpan!');
+}
+function tampilPemain(){
+  const u=document.getElementById('usiaPemain').value;
+  const arr=JSON.parse(localStorage.getItem('pemain_'+u)||'[]');
+  let html='<table><tr><th>Klub</th><th>Pemain</th><th>#</th><th>Gol</th><th>🟨</th><th>🟥</th></tr>';
+  arr.forEach(p=>{
+    html+=`<tr><td>${p.klub}</td><td>${p.nama}</td><td>${p.no}</td><td>${p.gol}</td><td>${p.kuning}</td><td>${p.merah}</td></tr>`;
+  });
+  html+='</table>';
+  document.getElementById('daftarPemain').innerHTML=html;
+}
+document.getElementById('usiaPemain').addEventListener('change', tampilPemain);
+</script>
+</body>
+</html>
