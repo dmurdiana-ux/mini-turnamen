@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hasil Turnamen DESTAPURA</title>
+    <title>Admin - Input Data Turnamen DESTAPURA</title>
     <style>
         * {
             margin: 0;
@@ -14,260 +14,360 @@
         body {
             background: linear-gradient(135deg, #002395, #0052cc);
             color: white;
+            padding: 20px;
             min-height: 100vh;
-            padding-bottom: 40px;
-        }
-        .running-text-container {
-            background: #ffd700;
-            color: #002395;
-            padding: 10px 0;
-            overflow: hidden;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .running-text {
-            white-space: nowrap;
-            animation: berjalan 25s linear infinite;
-            font-weight: bold;
-            font-size: 16px;
-        }
-        @keyframes berjalan {
-            from { transform: translateX(100%); }
-            to { transform: translateX(-100%); }
-        }
-        .header {
-            text-align: center;
-            padding: 20px;
-        }
-        .header img {
-            max-width: 160px;
-            margin-bottom: 10px;
-        }
-        .header h1 {
-            font-size: 26px;
-            color: #ffd700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-        }
-        .live-score-box {
-            background: white;
-            color: #002395;
-            max-width: 500px;
-            margin: 20px auto;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
-            text-align: center;
-            border: 4px solid #ffd700;
-        }
-        .live-score-box h2 {
-            color: #d32f2f;
-            margin-bottom: 12px;
-            font-size: 18px;
-        }
-        .skor-besar {
-            font-size: 42px;
-            font-weight: bold;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin: 10px 0;
-        }
-        .tim-nama {
-            font-size: 16px;
-            width: 120px;
-        }
-        .info-jadwal {
-            font-size: 14px;
-            color: #555;
-            margin-top: 8px;
         }
         .container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 15px;
-        }
-        .kategori {
-            margin-bottom: 30px;
             background: white;
             color: #222;
             border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            padding: 25px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
-        .kategori-judul {
-            background: linear-gradient(90deg, #002395, #0052cc);
-            color: #ffd700;
-            padding: 12px 18px;
-            font-size: 18px;
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            max-width: 180px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #002395;
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 18px;
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            background: #fef9e7;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
             font-weight: bold;
         }
-        .isi-tabel {
-            overflow-x: auto;
-        }
-        table {
+        input, select, button {
             width: 100%;
-            border-collapse: collapse;
+            padding: 10px;
+            margin-bottom: 8px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
         }
-        th {
-            background: #e8f0fe;
+        input:focus, select:focus {
+            border-color: #002395;
+            outline: none;
+        }
+        button {
+            background: linear-gradient(90deg, #002395, #0052cc);
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #ffd700, #ffcc00);
             color: #002395;
-            padding: 10px 6px;
-            text-align: left;
-            font-size: 14px;
         }
-        td {
-            padding: 10px 6px;
-            border-bottom: 1px solid #eee;
-            font-size: 14px;
+        .btn-hapus {
+            background: #dc3545;
         }
-        tr:nth-child(even) {
-            background: #f8f9fa;
+        .btn-hapus:hover {
+            background: #c82333;
+            color: white;
         }
-        .gol { color: #2e7d32; font-weight: bold; }
-        .kuning { color: #f57c00; font-weight: bold; }
-        .merah { color: #d32f2f; font-weight: bold; }
-        .kosong {
-            text-align: center;
-            padding: 25px;
-            color: #888;
-            font-style: italic;
+        .daftar-item {
+            border-top: 1px dashed #aaa;
+            margin-top: 12px;
+            padding-top: 12px;
         }
-        .peringatan {
-            background: #fff3cd;
-            color: #856404;
+        .item {
+            background: #eef;
             padding: 10px;
             border-radius: 6px;
-            margin: 15px;
-            font-size: 14px;
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .link-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        .status {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
             text-align: center;
+            font-weight: bold;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
         }
         @media (max-width: 600px) {
-            .skor-besar { font-size: 32px; }
-            th, td { padding: 8px 4px; font-size: 12px; }
-            .kategori-judul { font-size: 16px; }
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 20px;
+            }
         }
     </style>
 </head>
 <body>
 
-<!-- TEKS BERJALAN -->
-<div class="running-text-container">
-    <div class="running-text" id="teksBerjalan">⚽ Selamat datang di Turnamen Mini DESTAPURA — Silakan nikmati pertandingan!</div>
-</div>
+<div class="container">
+    <div class="logo">
+        <img src="logo-destapura.png" alt="Logo DESTAPURA FC">
+    </div>
+    <h1>🏆 PANEL ADMIN TURNAMEN DESTAPURA</h1>
+    <div class="status" id="statusPesan">✅ Siap — Data akan tersimpan otomatis</div>
 
-<!-- KEPALA HALAMAN -->
-<div class="header">
-    <img src="logo-destapura.png" alt="Logo DESTAPURA FC">
-    <h1>🏆 HASIL PERTANDINGAN TURNAMEN DESTAPURA</h1>
-    <p>Tuan Rumah Penyelenggara: SSB / FC DESTAPURA</p>
-</div>
+    <!-- PENGATURAN TEKS BERJALAN -->
+    <div class="section">
+        <h2>📢 Pengaturan Teks Berjalan</h2>
+        <label>Isi Pengumuman:</label>
+        <input type="text" id="runningTextInput" placeholder="Contoh: Selamat datang di Turnamen Mini DESTAPURA — Semangat Bertanding!">
+        <button onclick="simpanRunningText()">💾 Simpan Pengumuman</button>
+    </div>
 
-<div class="peringatan" id="peringatanData">
-    💡 Buka halaman <strong>admin.html</strong> terlebih dahulu untuk memasukkan data pertandingan.
-</div>
+    <!-- SKOR SEDANG BERLANGSUNG -->
+    <div class="section">
+        <h2>⚡ Skor Pertandingan Sedang Berlangsung</h2>
+        <label>Kategori Usia:</label>
+        <select id="liveUsia">
+            <option value="U9">U9</option>
+            <option value="U10">U10</option>
+            <option value="U11">U11</option>
+            <option value="U12">U12</option>
+            <option value="U13">U13</option>
+            <option value="U14">U14</option>
+            <option value="U15">U15</option>
+        </select>
+        <label>Tim A:</label>
+        <input type="text" id="liveTimA" placeholder="Nama SSB / Klub">
+        <label>Skor Tim A:</label>
+        <input type="number" id="liveSkorA" value="0" style="width:80px; display:inline-block">
+        <label style="width:30px; text-align:center">:</label>
+        <input type="number" id="liveSkorB" value="0" style="width:80px; display:inline-block">
+        <label>Skor Tim B:</label>
+        <input type="text" id="liveTimB" placeholder="Nama SSB / Klub">
+        <label>Jam & Lapangan:</label>
+        <input type="text" id="liveInfo" placeholder="Contoh: 08.00 WIB — Lapangan Utama">
+        <button onclick="simpanLiveScore()">🔄 Perbarui Skor</button>
+    </div>
 
-<!-- LIVE SCORE -->
-<div class="live-score-box" id="kotakLiveScore">
-    <h2>🔴 SEDANG BERLANGSUNG</h2>
-    <div id="kontenLiveScore">
-        <em>Belum ada pertandingan yang sedang berlangsung</em>
+    <!-- INPUT DATA PERTANDINGAN & PEMAIN -->
+    <div class="section">
+        <h2>📝 Input Data Pertandingan & Pemain</h2>
+        <label>Kategori Usia:</label>
+        <select id="usia">
+            <option value="U9">U9</option>
+            <option value="U10">U10</option>
+            <option value="U11">U11</option>
+            <option value="U12">U12</option>
+            <option value="U13">U13</option>
+            <option value="U14">U14</option>
+            <option value="U15">U15</option>
+        </select>
+        <label>Nama SSB / Klub Tim:</label>
+        <input type="text" id="namaSSB" placeholder="Misal: SSB Destapura">
+        <label>Nama Pemain:</label>
+        <input type="text" id="namaPemain" placeholder="Nama Lengkap Pemain">
+        <label>Nomor Punggung:</label>
+        <input type="number" id="noPunggung" placeholder="Contoh: 9">
+        <label>Jumlah Gol:</label>
+        <input type="number" id="jumlahGol" value="0">
+        <label>Kartu Kuning:</label>
+        <input type="number" id="kartuKuning" value="0">
+        <label>Kartu Merah:</label>
+        <input type="number" id="kartuMerah" value="0">
+        <label>Jam Bertanding:</label>
+        <input type="text" id="jamBertanding" placeholder="Contoh: 09.30 WIB">
+        <label>Lapangan:</label>
+        <input type="text" id="lapangan" placeholder="Contoh: Lapangan 1">
+        <button onclick="tambahData()">➕ Tambahkan Data</button>
+
+        <div class="daftar-item">
+            <h3>📋 Daftar Data Tersimpan</h3>
+            <div id="daftarData"><em>Belum ada data...</em></div>
+            <button onclick="muatUlangData()">🔄 Segarkan Daftar</button>
+            <button class="btn-hapus" onclick="hapusSemua()">🗑️ Hapus Semua Data</button>
+        </div>
+    </div>
+
+    <!-- INFORMASI BAGIKAN -->
+    <div class="section link-box">
+        <h2>🔗 Halaman Hasil Publik</h2>
+        <p>Setelah memasukkan data, buka berkas <strong>index.html</strong> untuk melihat hasilnya. Jika sudah diunggah ke internet, bagikan tautan halaman index.html kepada orang lain.</p>
+        <p style="margin-top:10px; font-size:14px; color:#555;"><strong>⚠️ Catatan Penting:</strong> Data hanya tersimpan di perangkat yang Anda gunakan saat ini. Jika ingin membagikan data ke orang lain, buka halaman Admin dan Publik di perangkat yang sama atau gunakan cara penyimpanan khusus.</p>
     </div>
 </div>
 
-<!-- DAFTAR HASIL -->
-<div class="container" id="wadahKategori">
-    <h2 style="color:#ffd700; margin-bottom:15px;">📋 Data Hasil Pertandingan</h2>
-    <!-- Data akan dibuat otomatis lewat JavaScript -->
-</div>
-
 <script>
-const USIA_LIST = ['U9', 'U10', 'U11', 'U12', 'U13', 'U14', 'U15'];
 const KUNCI_DATA = 'dataTurnamenDestapura';
 const KUNCI_TEKS = 'runningTextDestapura';
 const KUNCI_LIVE = 'liveScoreDestapura';
 
-function muatData() {
-    // Teks Berjalan
-    const teks = localStorage.getItem(KUNCI_TEKS);
-    if (teks) {
-        document.getElementById('teksBerjalan').textContent = teks;
-    }
+// Ambil data dari penyimpanan
+function ambilData() {
+    const data = localStorage.getItem(KUNCI_DATA);
+    return data ? JSON.parse(data) : [];
+}
 
-    // Live Score
-    const live = JSON.parse(localStorage.getItem(KUNCI_LIVE) || 'null');
-    if (live && live.timA && live.timB) {
-        document.getElementById('kontenLiveScore').innerHTML = `
-            <div style="font-weight:bold; color:#002395">Kategori ${live.usia}</div>
-            <div class="skor-besar">
-                <span class="tim-nama">${live.timA}</span>
-                <span>${live.skorA} : ${live.skorB}</span>
-                <span class="tim-nama">${live.timB}</span>
-            </div>
-            <div class="info-jadwal">${live.info}</div>
-        `;
-    }
+// Simpan data ke penyimpanan
+function simpanData(data) {
+    localStorage.setItem(KUNCI_DATA, JSON.stringify(data));
+    tampilkanPesan('✅ Data berhasil disimpan! Buka index.html untuk melihat hasilnya.');
+}
 
-    // Data Tabel per Kategori
-    const semuaData = JSON.parse(localStorage.getItem(KUNCI_DATA) || '[]');
-    const wadah = document.getElementById('wadahKategori');
+// Tampilkan pesan status
+function tampilkanPesan(teks, isError=false) {
+    const el = document.getElementById('statusPesan');
+    el.textContent = teks;
+    el.className = 'status' + (isError ? ' error' : '');
+    setTimeout(() => {
+        el.textContent = '✅ Siap — Data tersimpan otomatis';
+        el.className = 'status';
+    }, 4000);
+}
+
+// Tampilkan daftar data
+function tampilkanData() {
+    const data = ambilData();
+    const wadah = document.getElementById('daftarData');
     
-    // Sembunyikan peringatan jika ada data
-    if (semuaData.length > 0) {
-        document.getElementById('peringatanData').style.display = 'none';
+    if (data.length === 0) {
+        wadah.innerHTML = '<em>Belum ada data pertandingan yang dimasukkan</em>';
+        return;
     }
 
     wadah.innerHTML = '';
-
-    USIA_LIST.forEach(usia => {
-        const dataUsia = semuaData.filter(d => d.usia === usia);
-        const divKategori = document.createElement('div');
-        divKategori.className = 'kategori';
-        divKategori.innerHTML = `
-            <div class="kategori-judul">📌 Kategori ${usia}</div>
-            <div class="isi-tabel">
-                ${dataUsia.length === 0 
-                    ? '<div class="kosong">Belum ada data pertandingan untuk kategori ini</div>'
-                    : `<table>
-                        <thead>
-                            <tr>
-                                <th>SSB / Klub</th>
-                                <th>Nama Pemain</th>
-                                <th>#</th>
-                                <th>⚽ Gol</th>
-                                <th>🟡 Kuning</th>
-                                <th>🔴 Merah</th>
-                                <th>🕐 Jadwal</th>
-                                <th>📍 Lapangan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${dataUsia.map(d => `
-                                <tr>
-                                    <td>${d.namaSSB}</td>
-                                    <td>${d.namaPemain}</td>
-                                    <td>${d.noPunggung}</td>
-                                    <td class="gol">${d.gol}</td>
-                                    <td class="kuning">${d.kuning}</td>
-                                    <td class="merah">${d.merah}</td>
-                                    <td>${d.jam}</td>
-                                    <td>${d.lapangan}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                       </table>`
-                }
+    data.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.innerHTML = `
+            <div>
+                <strong>[${item.usia}]</strong> ${item.namaSSB} — ${item.namaPemain} (#${item.noPunggung})<br>
+                ⚽${item.gol} 🟡${item.kuning} 🔴${item.merah} | 🕐${item.jam} | 📍${item.lapangan}
             </div>
+            <button class="btn-hapus" style="width:auto; padding:4px 10px; font-size:13px" onclick="hapusItem(${idx})">Hapus</button>
         `;
-        wadah.appendChild(divKategori);
+        wadah.appendChild(div);
     });
 }
 
-// Muat ulang data setiap 5 detik agar otomatis diperbarui
+// Tambah data baru
+function tambahData() {
+    const usia = document.getElementById('usia').value;
+    const namaSSB = document.getElementById('namaSSB').value.trim();
+    const namaPemain = document.getElementById('namaPemain').value.trim();
+    const noPunggung = document.getElementById('noPunggung').value;
+    const gol = document.getElementById('jumlahGol').value;
+    const kuning = document.getElementById('kartuKuning').value;
+    const merah = document.getElementById('kartuMerah').value;
+    const jam = document.getElementById('jamBertanding').value.trim();
+    const lapangan = document.getElementById('lapangan').value.trim();
+
+    if (!namaSSB || !namaPemain) {
+        tampilkanPesan('⚠️ Nama SSB dan Nama Pemain wajib diisi!', true);
+        return;
+    }
+
+    const data = ambilData();
+    data.push({ usia, namaSSB, namaPemain, noPunggung, gol, kuning, merah, jam, lapangan });
+    simpanData(data);
+    tampilkanData();
+
+    // Reset formulir
+    document.getElementById('namaSSB').value = '';
+    document.getElementById('namaPemain').value = '';
+    document.getElementById('noPunggung').value = '';
+    document.getElementById('jumlahGol').value = 0;
+    document.getElementById('kartuKuning').value = 0;
+    document.getElementById('kartuMerah').value = 0;
+    document.getElementById('jamBertanding').value = '';
+    document.getElementById('lapangan').value = '';
+}
+
+// Hapus satu item
+function hapusItem(idx) {
+    if (confirm('Yakin ingin menghapus data ini?')) {
+        const data = ambilData();
+        data.splice(idx, 1);
+        simpanData(data);
+        tampilkanData();
+    }
+}
+
+// Hapus semua data
+function hapusSemua() {
+    if (confirm('⚠️ Yakin menghapus SEMUA data?')) {
+        localStorage.removeItem(KUNCI_DATA);
+        tampilkanData();
+        tampilkanPesan('✅ Semua data telah dihapus.');
+    }
+}
+
+// Segarkan ulang daftar
+function muatUlangData() {
+    tampilkanData();
+    tampilkanPesan('✅ Data telah disegarkan!');
+}
+
+// === TEKS BERJALAN ===
+function simpanRunningText() {
+    const teks = document.getElementById('runningTextInput').value.trim();
+    if (!teks) {
+        tampilkanPesan('⚠️ Teks pengumuman tidak boleh kosong!', true);
+        return;
+    }
+    localStorage.setItem(KUNCI_TEKS, teks);
+    tampilkanPesan('✅ Pengumuman berhasil diperbarui!');
+}
+
+// === LIVE SCORE ===
+function simpanLiveScore() {
+    const liveData = {
+        usia: document.getElementById('liveUsia').value,
+        timA: document.getElementById('liveTimA').value.trim(),
+        skorA: document.getElementById('liveSkorA').value,
+        skorB: document.getElementById('liveSkorB').value,
+        timB: document.getElementById('liveTimB').value.trim(),
+        info: document.getElementById('liveInfo').value.trim()
+    };
+
+    if (!liveData.timA || !liveData.timB) {
+        tampilkanPesan('⚠️ Nama Tim A dan Tim B wajib diisi!', true);
+        return;
+    }
+
+    localStorage.setItem(KUNCI_LIVE, JSON.stringify(liveData));
+    tampilkanPesan('✅ Skor pertandingan berhasil diperbarui!');
+}
+
+// Muat data saat halaman dibuka
 window.onload = function() {
-    muatData();
-    setInterval(muatData, 5000); // Segarkan data setiap 5 detik
+    tampilkanData();
+    
+    // Muat teks berjalan yang tersimpan
+    const teksTersimpan = localStorage.getItem(KUNCI_TEKS);
+    if (teksTersimpan) {
+        document.getElementById('runningTextInput').value = teksTersimpan;
+    }
 };
 </script>
 </body>
