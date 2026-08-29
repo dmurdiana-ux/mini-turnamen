@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Input Data Turnamen DESTAPURA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #002395, #0052cc);
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            color: #222;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            max-width: 180px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #002395;
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 18px;
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            background: #fef9e7;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 8px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+        input:focus, select:focus {
+            border-color: #002395;
+            outline: none;
+        }
+        button {
+            background: linear-gradient(90deg, #002395, #0052cc);
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #ffd700, #ffcc00);
+            color: #002395;
+        }
+        .btn-hapus {
+            background: #dc3545;
+        }
+        .btn-hapus:hover {
+            background: #c82333;
+            color: white;
+        }
+        .daftar-item {
+            border-top: 1px dashed #aaa;
+            margin-top: 12px;
+            padding-top: 12px;
+        }
+        .item {
+            background: #eef;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .link-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        .link-box input {
+            background: white;
+            border: 1px solid #002395;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo">
+        <img src="logo-destapura.png" alt="Logo DESTAPURA FC">
+    </div>
+    <h1>🏆 PANEL ADMIN TURNAMEN DESTAPURA</h1>
+    <p style="text-align:center; color:#555; margin-bottom:20px;">Isi data pertandingan, pemain, jadwal & pengumuman</p>
+
+    <!-- PENGATURAN TEKS BERJALAN -->
+    <div class="section">
+        <h2>📢 Pengaturan Teks Berjalan</h2>
+        <label>Isi Pengumuman:</label>
+        <input type="text" id="runningTextInput" placeholder="Contoh: Selamat datang di Turnamen Mini DESTAPURA — Semangat Bertanding!">
+        <button onclick="simpanRunningText()">💾 Simpan Pengumuman</button>
+    </div>
+
+    <!-- LIGA SEDANG BERLANGSUNG -->
+    <div class="section">
+        <h2>⚡ Skor Pertandingan Sedang Berlangsung</h2>
+        <label>Kategori Usia:</label>
+        <select id="liveUsia">
+            <option value="U9">U9</option>
+            <option value="U10">U10</option>
+            <option value="U11">U11</option>
+            <option value="U12">U12</option>
+            <option value="U13">U13</option>
+            <option value="U14">U14</option>
+            <option value="U15">U15</option>
+        </select>
+        <label>Tim A:</label>
+        <input type="text" id="liveTimA" placeholder="Nama SSB / Klub">
+        <label>Skor Tim A:</label>
+        <input type="number" id="liveSkorA" value="0" style="width:80px; display:inline-block">
+        <label style="width:30px; text-align:center">:</label>
+        <input type="number" id="liveSkorB" value="0" style="width:80px; display:inline-block">
+        <label>Skor Tim B:</label>
+        <input type="text" id="liveTimB" placeholder="Nama SSB / Klub">
+        <label>Jam & Lapangan:</label>
+        <input type="text" id="liveInfo" placeholder="Contoh: 08.00 WIB — Lapangan Utama">
+        <button onclick="simpanLiveScore()">🔄 Perbarui Skor</button>
+    </div>
+
+    <!-- INPUT DATA PERTANDINGAN & PEMAIN -->
+    <div class="section">
+        <h2>📝 Input Data Pertandingan & Pemain</h2>
+        <label>Kategori Usia:</label>
+        <select id="usia">
+            <option value="U9">U9</option>
+            <option value="U10">U10</option>
+            <option value="U11">U11</option>
+            <option value="U12">U12</option>
+            <option value="U13">U13</option>
+            <option value="U14">U14</option>
+            <option value="U15">U15</option>
+        </select>
+        <label>Nama SSB / Klub Tim:</label>
+        <input type="text" id="namaSSB" placeholder="Misal: SSB Destapura">
+        <label>Nama Pemain:</label>
+        <input type="text" id="namaPemain" placeholder="Nama Lengkap Pemain">
+        <label>Nomor Punggung:</label>
+        <input type="number" id="noPunggung" placeholder="Contoh: 9">
+        <label>Jumlah Gol:</label>
+        <input type="number" id="jumlahGol" value="0">
+        <label>Kartu Kuning:</label>
+        <input type="number" id="kartuKuning" value="0">
+        <label>Kartu Merah:</label>
+        <input type="number" id="kartuMerah" value="0">
+        <label>Jam Bertanding:</label>
+        <input type="text" id="jamBertanding" placeholder="Contoh: 09.30 WIB">
+        <label>Lapangan:</label>
+        <input type="text" id="lapangan" placeholder="Contoh: Lapangan 1">
+        <button onclick="tambahData()">➕ Tambahkan Data</button>
+
+        <div class="daftar-item">
+            <h3>📋 Daftar Data Tersimpan</h3>
+            <div id="daftarData"></div>
+            <button class="btn-hapus" onclick="hapusSemua()">🗑️ Hapus Semua Data</button>
+        </div>
+    </div>
+
+    <!-- INFORMASI BAGIKAN -->
+    <div class="section link-box">
+        <h2>🔗 Bagikan Halaman Hasil</h2>
+        <p>Unggah berkas <strong>index.html</strong> ke hosting gratis (Netlify/Vercel/GitHub Pages), lalu bagikan tautan berikut kepada semua pihak agar bisa dilihat di HP:</p>
+        <input type="text" id="linkPreview" value="👉 Setelah diunggah, tautan akan muncul di sini" readonly>
+    </div>
+</div>
+
+<script>
+let dataPertandingan = JSON.parse(localStorage.getItem('dataTurnamen') || '[]');
+
+function tampilkanData() {
+    const wadah = document.getElementById('daftarData');
+    wadah.innerHTML = '';
+    dataPertandingan.forEach((item, idx) => {
+        wadah.innerHTML += `
+            <div class="item">
+                <div>
+                    <strong>[${item.usia}]</strong> ${item.namaSSB} — ${item.namaPemain} (#${item.noPunggung})<br>
+                    ⚽${item.gol} 🟡${item.kuning} 🔴${item.merah} | 🕐${item.jam} | 📍${item.lapangan}
+                </div>
+                <button class="btn-hapus" style="width:auto; padding:4px 10px; font-size:13px" onclick="hapusItem(${idx})">Hapus</button>
+            </div>
+        `;
+    });
+}
+
+function tambahData() {
+    const item = {
+        usia: document.getElementById('usia').value,
+        namaSSB: document.getElementById('namaSSB').value,
+        namaPemain: document.getElementById('namaPemain').value,
+        noPunggung: document.getElementById('noPunggung').value,
+        gol: document.getElementById('jumlahGol').value,
+        kuning: document.getElementById('kartuKuning').value,
+        merah: document.getElementById('kartuMerah').value,
+        jam: document.getElementById('jamBertanding').value,
+        lapangan: document.getElementById('lapangan').value
+    };
+
+    if (!item.namaSSB || !item.namaPemain) {
+        alert('⚠️ Nama SSB dan Nama Pemain wajib diisi!');
+        return;
+    }
+
+    dataPertandingan.push(item);
+    simpanKeLocal();
+    tampilkanData();
+    alert('✅ Data berhasil disimpan! Buka halaman index.html untuk melihat hasilnya.');
+    
+    // Reset formulir
+    document.getElementById('namaSSB').value = '';
+    document.getElementById('namaPemain').value = '';
+    document.getElementById('noPunggung').value = '';
+    document.getElementById('jumlahGol').value = 0;
+    document.getElementById('kartuKuning').value = 0;
+    document.getElementById('kartuMerah').value = 0;
+    document.getElementById('jamBertanding').value = '';
+    document.getElementById('lapangan').value = '';
+}
+
+function simpanKeLocal() {
+    localStorage.setItem('dataTurnamen', JSON.stringify(dataPertandingan));
+}
+
+function hapusItem(idx) {
+    if (confirm('Yakin ingin menghapus data ini?')) {
+        dataPertandingan.splice(idx, 1);
+        simpanKeLocal();
+        tampilkanData();
+    }
+}
+
+function hapusSemua() {
+    if (confirm('⚠️ Yakin menghapus SEMUA data?')) {
+        dataPertandingan = [];
+        simpanKeLocal();
+        tampilkanData();
+    }
+}
+
+// TEKS BERJALAN
+function simpanRunningText() {
+    const teks = document.getElementById('runningTextInput').value;
+    localStorage.setItem('runningText', teks);
+    alert('✅ Pengumuman berhasil diperbarui!');
+}
+
+// LIVE SCORE
+function simpanLiveScore() {
+    const liveData = {
+        usia: document.getElementById('liveUsia').value,
+        timA: document.getElementById('liveTimA').value,
+        skorA: document.getElementById('liveSkorA').value,
+        skorB: document.getElementById('liveSkorB').value,
+        timB: document.getElementById('liveTimB').value,
+        info: document.getElementById('liveInfo').value
+    };
+    localStorage.setItem('liveScore', JSON.stringify(liveData));
+    alert('✅ Skor berhasil diperbarui!');
+}
+
+window.onload = function() {
+    tampilkanData();
+    const teksSimpan = localStorage.getItem('runningText');
+    if (teksSimpan) document.getElementById('runningTextInput').value = teksSimpan;
+};
+</script>
+</body>
+</html>
